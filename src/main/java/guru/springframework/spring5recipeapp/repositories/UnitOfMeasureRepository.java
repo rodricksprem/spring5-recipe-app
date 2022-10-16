@@ -4,5 +4,9 @@ import guru.springframework.spring5recipeapp.domains.Category;
 import guru.springframework.spring5recipeapp.domains.UnitOfMeasure;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 public interface UnitOfMeasureRepository extends CrudRepository<UnitOfMeasure,Long> {
+ Optional<UnitOfMeasure> findByDescription(String description);
+
 }
