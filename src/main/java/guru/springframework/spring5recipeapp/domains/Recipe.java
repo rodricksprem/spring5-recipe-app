@@ -1,6 +1,7 @@
 package guru.springframework.spring5recipeapp.domains;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Recipe {
@@ -19,6 +20,9 @@ public class Recipe {
     @OneToOne(cascade = CascadeType.ALL)
     private Notes note;
     //private Difficulty difficulty;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "recipe")
+    private Set<Ingredient> ingredients;
     public String getDescription() {
         return description;
     }
@@ -81,5 +85,29 @@ public class Recipe {
 
     public void setImage(Byte[] image) {
         this.image = image;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Notes getNote() {
+        return note;
+    }
+
+    public void setNote(Notes note) {
+        this.note = note;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }
