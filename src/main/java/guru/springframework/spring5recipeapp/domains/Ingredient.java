@@ -7,6 +7,11 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Data
+/*
+this is required to overcome stackovwerflow exception,
+Caused by: org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role:
+ */
+@EqualsAndHashCode(exclude = "recipe")
 @Entity
 public class Ingredient {
     @Id
