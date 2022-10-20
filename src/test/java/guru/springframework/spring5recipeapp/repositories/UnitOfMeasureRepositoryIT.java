@@ -8,11 +8,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest
-class UnitOfMeasureRepositoryTest {
+class UnitOfMeasureRepositoryIT {
     @Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
 
@@ -24,6 +24,6 @@ class UnitOfMeasureRepositoryTest {
     @Test
     void findByDescription() {
         Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-        assertEquals("Teaspoon",unitOfMeasureOptional.get());
+        assertEquals("Teaspoon",unitOfMeasureOptional.get().getDescription());
     }
 }
