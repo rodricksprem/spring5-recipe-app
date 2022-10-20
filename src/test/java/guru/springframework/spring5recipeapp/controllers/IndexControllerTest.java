@@ -7,9 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.HandlerAdapter;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +32,11 @@ class IndexControllerTest {
         MockitoAnnotations.openMocks(this);
         indexController = new IndexController(recipeService);
     }
-
+    @Test
+    public  void testMockMVC() throws Exception {
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
+        mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index"));
+    }
     @Test
     void getIndex() {
         Set<Recipe> recipes = new HashSet<>();
