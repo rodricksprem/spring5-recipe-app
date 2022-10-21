@@ -24,6 +24,7 @@ public class IndexController {
     @RequestMapping({"","/","index"})
     public String getIndex(Model model){
         log.debug("inside getIndex method...");
+
         model.addAttribute("recipes",recipeService.getRecipies());
 
         return "index";
