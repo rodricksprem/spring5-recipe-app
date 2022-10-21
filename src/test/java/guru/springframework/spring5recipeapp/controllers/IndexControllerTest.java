@@ -56,4 +56,6 @@ class IndexControllerTest {
         Set<Recipe> returnedSet= argumentCaptor.getValue();
         assertEquals(2,returnedSet.size());
     }
+
+
 }
