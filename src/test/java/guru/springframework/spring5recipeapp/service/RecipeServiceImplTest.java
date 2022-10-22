@@ -1,5 +1,6 @@
 package guru.springframework.spring5recipeapp.service;
 
+import guru.springframework.spring5recipeapp.command.RecipeCommand;
 import guru.springframework.spring5recipeapp.converter.CategoryCommandToCategory;
 import guru.springframework.spring5recipeapp.converter.IngredientCommandToIngredient;
 import guru.springframework.spring5recipeapp.converter.RecipeCommandToRecipe;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -37,8 +39,9 @@ class RecipeServiceImplTest {
     RecipeServiceImpl recipeService;
     @Mock
      RecipeRepository recipeRepository;
+    @Mock
     private RecipeCommandToRecipe recipeCommandToRecipe;
-
+    @Mock
     private RecipeToRecipeCommand recipeToRecipeCommand;
 
     @BeforeEach
@@ -48,7 +51,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipies() {
+    void getRecipiesTest() {
         Recipe recipe = new Recipe();
         Set<Recipe> recipes = new HashSet<>();
         recipes.add(recipe);
@@ -68,5 +71,28 @@ class RecipeServiceImplTest {
         verify(recipeRepository,times(1)).findById(anyLong());
         verify(recipeRepository,never()).findAll();
     }
-
+    @Test
+    void getRecipiesCommanByIdTest() {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+        RecipeCommand foundRecipeCommand=recipeService.findCommandById(1L);
+        assertNotNull(foundRecipeCommand," Null Recipe returned");
+        assertEquals(1L,foundRecipeCommand.getId());
+        verify(recipeRepository,times(1)).findById(anyLong());
+        verify(recipeRepository,never()).findAll();
+    }
+    @Test
+    public void testDeleteById() throws Exception{
+        //given
+        Long id = 1L;
+        //when
+        recipeService.deleteById(1L);
+        //then
+        verify(recipeRepository,times(1)).deleteById(anyLong());
+    }
 }
