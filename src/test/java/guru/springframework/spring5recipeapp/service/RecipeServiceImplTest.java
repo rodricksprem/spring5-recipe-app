@@ -1,12 +1,9 @@
 package guru.springframework.spring5recipeapp.service;
 
-import guru.springframework.spring5recipeapp.command.CategoryCommand;
-import guru.springframework.spring5recipeapp.command.IngredientCommand;
-import guru.springframework.spring5recipeapp.command.NotesCommand;
-import guru.springframework.spring5recipeapp.command.RecipeCommand;
 import guru.springframework.spring5recipeapp.converter.CategoryCommandToCategory;
 import guru.springframework.spring5recipeapp.converter.IngredientCommandToIngredient;
 import guru.springframework.spring5recipeapp.converter.RecipeCommandToRecipe;
+import guru.springframework.spring5recipeapp.converter.RecipeToRecipeCommand;
 import guru.springframework.spring5recipeapp.domains.Difficulty;
 import guru.springframework.spring5recipeapp.domains.Recipe;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepository;
@@ -41,13 +38,13 @@ class RecipeServiceImplTest {
     @Mock
      RecipeRepository recipeRepository;
     private RecipeCommandToRecipe recipeCommandToRecipe;
-    private CategoryCommandToCategory categoryCommandToCategory;
-    private IngredientCommandToIngredient ingredientCommandToIngredient;
+
+    private RecipeToRecipeCommand recipeToRecipeCommand;
 
     @BeforeEach
     public void setUp(){
         MockitoAnnotations.openMocks(this);
-        recipeService=new RecipeServiceImpl(recipeCommandToRecipe, categoryCommandToCategory, ingredientCommandToIngredient, recipeRepository);
+        recipeService=new RecipeServiceImpl(recipeCommandToRecipe, recipeToRecipeCommand, recipeRepository);
     }
 
     @Test

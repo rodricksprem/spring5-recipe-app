@@ -48,12 +48,11 @@ public class RecipeServiceIT {
         Recipe recipe = recipes.iterator().next();
         RecipeCommand recipeCommand = recipeToRecipeCommand.convert(recipe);
         recipeCommand.setDescription(NEW_DESCRIPTON);
-        Recipe detachedRecipe = recipeCommandToRecipe.convert(recipeCommand);
-        Recipe savedRecipe =recipeRepository.save(detachedRecipe);
-        assertEquals(NEW_DESCRIPTON,savedRecipe.getDescription());
-        assertEquals(recipe.getId(),savedRecipe.getId());
-        assertEquals(recipe.getCategories().size(),savedRecipe.getCategories().size());
-        assertEquals(recipe.getIngredients().size(),savedRecipe.getIngredients().size());
+        RecipeCommand savedRecipeCommand =recipeService.saveRecipeCommand(recipeCommand);
+        assertEquals(NEW_DESCRIPTON,savedRecipeCommand.getDescription());
+        assertEquals(recipe.getId(),savedRecipeCommand.getId());
+        assertEquals(recipe.getCategories().size(),savedRecipeCommand.getCategories().size());
+        assertEquals(recipe.getIngredients().size(),savedRecipeCommand.getIngredients().size());
 
 
 

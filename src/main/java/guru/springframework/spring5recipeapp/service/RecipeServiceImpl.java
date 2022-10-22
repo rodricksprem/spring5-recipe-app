@@ -4,6 +4,7 @@ import guru.springframework.spring5recipeapp.command.RecipeCommand;
 import guru.springframework.spring5recipeapp.converter.CategoryCommandToCategory;
 import guru.springframework.spring5recipeapp.converter.IngredientCommandToIngredient;
 import guru.springframework.spring5recipeapp.converter.RecipeCommandToRecipe;
+import guru.springframework.spring5recipeapp.converter.RecipeToRecipeCommand;
 import guru.springframework.spring5recipeapp.domains.Recipe;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -17,14 +18,12 @@ import java.util.Set;
 @Slf4j
 public class RecipeServiceImpl implements RecipeService{
     private final RecipeCommandToRecipe recipeCommandToRecipe;
-    private final CategoryCommandToCategory categoryCommandToCategory;
-    private  final IngredientCommandToIngredient ingredientCommandToIngredient;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
     private final RecipeRepository recipeRepository;
 
-    public RecipeServiceImpl(RecipeCommandToRecipe recipeCommandToRecipe, CategoryCommandToCategory categoryCommandToCategory, IngredientCommandToIngredient ingredientCommandToIngredient, RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand recipeToRecipeCommand, RecipeRepository recipeRepository) {
         this.recipeCommandToRecipe = recipeCommandToRecipe;
-        this.categoryCommandToCategory = categoryCommandToCategory;
-        this.ingredientCommandToIngredient = ingredientCommandToIngredient;
+        this.recipeToRecipeCommand = recipeToRecipeCommand;
         this.recipeRepository = recipeRepository;
     }
 
@@ -49,12 +48,12 @@ public class RecipeServiceImpl implements RecipeService{
 
     @Override
     @Transactional
-    public Recipe saveRecipeCommand(RecipeCommand recipeCommand) {
-        Recipe savedRecipe=null;
+    public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
         Recipe detachedRecipe=recipeCommandToRecipe.convert(recipeCommand);
-        savedRecipe=recipeRepository.save(detachedRecipe);
+        Recipe savedRecipe=recipeRepository.save(detachedRecipe);
         log.debug(" Saved Recipe Id: "+savedRecipe.getId());
-        return savedRecipe;
+        RecipeCommand savedRecipeCommand=recipeToRecipeCommand.convert(savedRecipe);
+        return savedRecipeCommand;
     }
 
 }
