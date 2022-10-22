@@ -1,5 +1,6 @@
 package guru.springframework.spring5recipeapp.service;
 
+import guru.springframework.spring5recipeapp.command.RecipeCommand;
 import guru.springframework.spring5recipeapp.domains.Recipe;
 import org.springframework.stereotype.Service;
 
@@ -9,4 +10,5 @@ public interface RecipeService {
 
   Set<Recipe> getRecipies();
   Recipe findById(Long id);
+  Recipe saveRecipeCommand(RecipeCommand recipeCommand);
 }
