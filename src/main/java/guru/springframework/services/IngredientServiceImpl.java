@@ -10,6 +10,7 @@ import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -47,6 +48,7 @@ public class IngredientServiceImpl implements IngredientService{
     }
 
     @Override
+    @Transactional
     public IngredientCommand saveIngredientCommand(IngredientCommand ingredientCommand) {
        Optional<Recipe> recipeOptional = recipeRepository.findById(ingredientCommand.getRecipeId());
        if(ingredientCommand!=null && !recipeOptional.isPresent()){
@@ -83,7 +85,7 @@ public class IngredientServiceImpl implements IngredientService{
         Optional<Ingredient> savedNewIngredientOption = savedRecipe.getIngredients().stream()
                 .filter(ingredientTemp -> !(existingIngredientList.contains(ingredientTemp.getId())) ).findFirst();
         if(savedNewIngredientOption.isPresent()){
-            return ingredientToIngredientCommand.convert(savedIngredientOption.get());
+            return ingredientToIngredientCommand.convert(savedNewIngredientOption.get());
         }
         return new IngredientCommand();
     }
