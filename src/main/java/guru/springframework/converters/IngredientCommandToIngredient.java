@@ -2,6 +2,7 @@ package guru.springframework.converters;
 
 import guru.springframework.commands.IngredientCommand;
 import guru.springframework.domains.Ingredient;
+import guru.springframework.domains.Recipe;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
@@ -25,6 +26,13 @@ public class IngredientCommandToIngredient implements Converter<IngredientComman
         }
         final Ingredient target = new Ingredient();
         target.setId(source.getId());
+        if(source.getRecipeId() != null){
+            Recipe recipe = new Recipe();
+            recipe.setId(source.getRecipeId());
+            target.setRecipe(recipe);
+            recipe.addIngredient(target);
+        }
+
         target.setDescription(source.getDescription());
         target.setAmount(source.getAmount());
         target.setUnitOfMeasure(unitOfMeasureCommandToUnitOfMeasure.convert(source.getUnitOfMeasure()));
